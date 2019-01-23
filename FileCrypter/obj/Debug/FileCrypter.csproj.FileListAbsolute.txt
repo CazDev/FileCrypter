@@ -1,0 +1,7 @@
+C:\C#\FileCrypter\FileCrypter\bin\Debug\FileCrypter.exe.config
+C:\C#\FileCrypter\FileCrypter\bin\Debug\FileCrypter.exe
+C:\C#\FileCrypter\FileCrypter\bin\Debug\FileCrypter.pdb
+C:\C#\FileCrypter\FileCrypter\obj\Debug\FileCrypter.csprojAssemblyReference.cache
+C:\C#\FileCrypter\FileCrypter\obj\Debug\FileCrypter.csproj.CoreCompileInputs.cache
+C:\C#\FileCrypter\FileCrypter\obj\Debug\FileCrypter.exe
+C:\C#\FileCrypter\FileCrypter\obj\Debug\FileCrypter.pdb
