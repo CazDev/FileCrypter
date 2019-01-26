@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FileCrypter
 {
-    enum CryptStatus
+    internal enum CryptStatus
     {
         Crypted,
         NotCrypted
     }
-    struct Path
+
+    internal struct Path
     {
         public string path;
         public string FileName;
@@ -26,53 +24,48 @@ namespace FileCrypter
             FileName = temp[temp.Length - 1];
         }
     }
-    class Program
+
+    internal class Program
     {
-        static Crypter crypter = new Crypter();
-        static void Main(string[] args)
+        private static readonly Crypter crypter = new Crypter();
+
+        private static void Main(string[] args)
         {
             //args = new[]
             //{
-            //    "E:\\123\\Progs"
+            //    "C:\\Users\\tavvi\\Desktop\\123"
             //};
 
-            if(args.Length == 0)
+            if (args.Length == 0)
             {
                 Console.WriteLine("Drop file/folder on exe");
                 Console.ReadKey();
                 Environment.Exit(0);
             }
 
-            ColorWriter.Write("Perss \"D\" to decrypt, \"E\" to encrypt", ConsoleColor.White);
-            ConsoleKeyInfo key;
-            do
-            {
-                 key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.E || key.Key == ConsoleKey.D)
-                    break;
-            } while (true);
+            string password = GetPassword();
+
+            ConsoleKeyInfo key = GetKey();
 
             Console.Clear();
+
             ColorWriter.Write("Getting files...", ConsoleColor.White);
             Path[] pathes = GetArgs(args);
 
-            for (int i = 0; i < pathes.Length; i++)
+            if (key.Key == ConsoleKey.E)
             {
-                if (key.Key == ConsoleKey.E && pathes[i].cryptStatus == CryptStatus.NotCrypted)
-                {
-                    crypter.Encrypt(pathes[i]);
-                }
-                else if (key.Key == ConsoleKey.D && pathes[i].cryptStatus == CryptStatus.Crypted)
-                {
-                    crypter.Decrypt(pathes[i]);
-                }
-                Console.Title = $"{i+1}/{pathes.Length}";
+                crypter.Encrypt(pathes, password);
             }
+            else
+            {
+                crypter.Decrypt(pathes, password);
+            }
+
             ColorWriter.Write("\nDone", ConsoleColor.White);
             Console.ReadKey();
         }
 
-        public static Path[] GetArgs(string[] pathes)
+        private static Path[] GetArgs(string[] pathes)
         {
             List<Path> args = new List<Path>();
             for (int i = 0; i < pathes.Length; i++)
@@ -89,15 +82,45 @@ namespace FileCrypter
                     {// if file
                         CryptStatus cryptStatus;
                         if (pathes[i].EndsWith(".crr") || pathes[i].EndsWith(".crr\\"))
+                        {
                             cryptStatus = CryptStatus.Crypted;
+                        }
                         else
+                        {
                             cryptStatus = CryptStatus.NotCrypted;
+                        }
+
                         args.Add(new Path(pathes[i], cryptStatus));
                     }
                 }
                 catch { }
             }
             return args.ToArray();
+        }
+
+        private static ConsoleKeyInfo GetKey()
+        {
+            ColorWriter.Write("Perss \"D\" to decrypt, \"E\" to encrypt", ConsoleColor.White);
+            ConsoleKeyInfo key;
+            do
+            {
+                key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.E || key.Key == ConsoleKey.D)
+                {
+                    break;
+                }
+            } while (true);
+            return key;
+        }
+        static string GetPassword()
+        {
+            string pass;
+            do
+            {
+                Console.Write("Enter password: ");
+                pass = Console.ReadLine();
+            } while (String.IsNullOrWhiteSpace(pass));
+            return pass;
         }
     }
 }
