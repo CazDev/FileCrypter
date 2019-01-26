@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 
 namespace FileCrypter
 {
@@ -28,44 +29,75 @@ namespace FileCrypter
     internal class Program
     {
         private static readonly Crypter crypter = new Crypter();
-
+        [STAThread]
         private static void Main(string[] args)
         {
-            //args = new[]
-            //{
-            //    "C:\\Users\\tavvi\\Desktop\\123"
-            //};
-
             if (args.Length == 0)
             {
-                Console.WriteLine("Drop file/folder on exe");
-                Console.ReadKey();
-                Environment.Exit(0);
-            }
-
-            string password = GetPassword();
-
-            ConsoleKeyInfo key = GetKey();
-
-            Console.Clear();
-
-            ColorWriter.Write("Getting files...", ConsoleColor.White);
-            Path[] pathes = GetArgs(args);
-
-            if (key.Key == ConsoleKey.E)
-            {
-                crypter.Encrypt(pathes, password);
+                StartWithoutArgs(GetPassword());
             }
             else
             {
-                crypter.Decrypt(pathes, password);
+                StartUsingArgs(args, GetPassword());
             }
-
             ColorWriter.Write("\nDone", ConsoleColor.White);
             Console.ReadKey();
         }
+        /// <summary>
+        /// Show openFileDialog, get files and encrypt or decrypt
+        /// </summary>
+        /// <param name="password"></param>
+        private static void StartWithoutArgs(string password)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Multiselect = true
+            };
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                ReadKeyAndEncryptOrDecrypt(GetPathesFromPathes(ofd.FileNames), password);
+            }
+        }
+        /// <summary>
+        /// Use args as pathes to files & folders
+        /// </summary>
+        /// <param name="args">Arguments</param>
+        /// <param name="password">pass</param>
+        private static void StartUsingArgs(string[] args, string password)
+        {
+            ColorWriter.Write("Getting files...\n", ConsoleColor.White);
+            Path[] pathes = GetPathesFromPathes(args);
 
-        private static Path[] GetArgs(string[] pathes)
+            ReadKeyAndEncryptOrDecrypt(pathes, password);
+        }
+        #region subMethods-StartUsingArgs
+        private static ConsoleKeyInfo GetKeyEorD()
+        {
+            ColorWriter.Write("Perss \"D\" to decrypt, \"E\" to encrypt", ConsoleColor.White);
+            ConsoleKeyInfo key;
+            do
+            {
+                key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.E || key.Key == ConsoleKey.D)
+                {
+                    break;
+                }
+            } while (true);
+            return key;
+        }
+
+        private static string GetPassword()
+        {
+            string pass;
+            do
+            {
+                Console.Write("Enter password: ");
+                pass = Console.ReadLine();
+            } while (string.IsNullOrWhiteSpace(pass));
+            return pass;
+        }
+        #endregion
+        private static Path[] GetPathesFromPathes(string[] pathes)
         {
             List<Path> args = new List<Path>();
             for (int i = 0; i < pathes.Length; i++)
@@ -75,8 +107,8 @@ namespace FileCrypter
                     FileAttributes attr = File.GetAttributes(pathes[i]);
                     if (attr.HasFlag(FileAttributes.Directory))
                     {//if dir
-                        args.AddRange(GetArgs(Directory.GetFiles(pathes[i])));
-                        args.AddRange(GetArgs(Directory.GetDirectories(pathes[i])));
+                        args.AddRange(GetPathesFromPathes(Directory.GetFiles(pathes[i])));
+                        args.AddRange(GetPathesFromPathes(Directory.GetDirectories(pathes[i])));
                     }
                     else
                     {// if file
@@ -97,30 +129,18 @@ namespace FileCrypter
             }
             return args.ToArray();
         }
+        private static void ReadKeyAndEncryptOrDecrypt(Path[] pathes, string password)
+        {
+            ConsoleKeyInfo key = GetKeyEorD();
 
-        private static ConsoleKeyInfo GetKey()
-        {
-            ColorWriter.Write("Perss \"D\" to decrypt, \"E\" to encrypt", ConsoleColor.White);
-            ConsoleKeyInfo key;
-            do
+            if (key.Key == ConsoleKey.E)
             {
-                key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.E || key.Key == ConsoleKey.D)
-                {
-                    break;
-                }
-            } while (true);
-            return key;
-        }
-        static string GetPassword()
-        {
-            string pass;
-            do
+                crypter.Encrypt(pathes, password);
+            }
+            else
             {
-                Console.Write("Enter password: ");
-                pass = Console.ReadLine();
-            } while (String.IsNullOrWhiteSpace(pass));
-            return pass;
+                crypter.Decrypt(pathes, password);
+            }
         }
     }
 }

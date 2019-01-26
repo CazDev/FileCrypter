@@ -33,6 +33,8 @@ namespace FileCrypter
                 Console.Title = $"{i + 1}/{pathes.Length}";
             }
         }
+
+
         private bool EncryptFile(Path path, string password)
         {
             if (path.cryptStatus == CryptStatus.NotCrypted)
@@ -103,11 +105,6 @@ namespace FileCrypter
             }
             return false;
         }
-        /// <summary>
-        /// Compressing array of byte
-        /// </summary>
-        /// <param name="data">Input byte array</param>
-        /// <returns></returns>
         private byte[] Compress(byte[] data)
         {
             MemoryStream output = new MemoryStream();
@@ -117,11 +114,6 @@ namespace FileCrypter
             }
             return output.ToArray();
         }
-        /// <summary>
-        /// Decompressing array of byte
-        /// </summary>
-        /// <param name="data">Input byte array</param>
-        /// <returns></returns>
         private byte[] Decompress(byte[] data)
         {
             MemoryStream input = new MemoryStream(data);
@@ -144,7 +136,6 @@ namespace FileCrypter
             algorithm.IV = rdb.GetBytes(16);
             return algorithm;
         }
-
         /// <summary>
         /// Encrypts a string with a given password.
         /// </summary>
@@ -162,7 +153,6 @@ namespace FileCrypter
                 return ms.ToArray();
             }
         }
-
         /// <summary>
         /// Decrypts a string using a given password.
         /// </summary>
