@@ -50,6 +50,7 @@
     <Compile Include="ColorWriter.cs" />
     <Compile Include="Crypter.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProgressBar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

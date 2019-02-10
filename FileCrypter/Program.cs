@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace FileCrypter
@@ -41,6 +42,7 @@ namespace FileCrypter
                 StartUsingArgs(args, GetPassword());
             }
             ColorWriter.Write("\nDone", ConsoleColor.White);
+
             Console.ReadKey();
         }
         /// <summary>
@@ -89,11 +91,17 @@ namespace FileCrypter
         private static string GetPassword()
         {
             string pass;
+            string conf;
             do
             {
                 Console.Write("Enter password: ");
                 pass = Console.ReadLine();
-            } while (string.IsNullOrWhiteSpace(pass));
+
+                Console.Write("Confirm password: ");
+                conf = Console.ReadLine();
+
+                Console.Clear();
+            } while (pass != conf);
             return pass;
         }
         #endregion

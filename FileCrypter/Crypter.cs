@@ -8,7 +8,7 @@ namespace FileCrypter
     internal class Crypter
     {
         /// <summary>
-        /// Encryping & compressing files & folders 
+        /// Encryping & compressing files or folders 
         /// </summary>
         /// <param name="pathes">pathes to folders & files</param>
         /// <param name="password">password to encrypt</param>
@@ -21,7 +21,7 @@ namespace FileCrypter
             }
         }
         /// <summary>
-        /// Decryping & dempressing files & folders 
+        /// Decryping & dempressing files or folders 
         /// </summary>
         /// <param name="pathes">pathes to folders & files</param>
         /// <param name="password">password to encrypt</param>
@@ -41,27 +41,27 @@ namespace FileCrypter
             {
                 try
                 {
-                    ColorWriter.Write($"\nEncrypting {path.FileName}", ConsoleColor.Green);
-
-                    Console.Title = "Reading...";
+                    ProgressBar progressBar = new ProgressBar($"\nEncrypting {path.FileName}");
 
                     byte[] bytes = File.ReadAllBytes(path.path);
 
-                    Console.Title = "30%";
+                    progressBar.ReportValue(30);
 
                     byte[] finalText = EncryptBytes(bytes, password);
 
-                    Console.Title = "60%";
+                    progressBar.ReportValue(60);
 
                     finalText = Compress(finalText);
 
-                    Console.Title = "70%";
+                    progressBar.ReportValue(70);
 
                     File.WriteAllBytes(path.path, finalText);
 
-                    Console.Title = "100%";
+                    progressBar.ReportValue(100);
 
                     File.Move(path.path, $"{path.path}.crr");
+
+                    progressBar.End();
                 }
                 catch
                 {
@@ -77,25 +77,27 @@ namespace FileCrypter
             {
                 try
                 {
-                    ColorWriter.Write($"\nDecrypting {path.FileName}", ConsoleColor.Green);
+                    ProgressBar progressBar = new ProgressBar($"\nDecrypting {path.FileName}");
 
                     byte[] bytes = File.ReadAllBytes(path.path);
 
-                    Console.Title = "30%";
+                    progressBar.ReportValue(30);
 
                     bytes = Decompress(bytes);
 
-                    Console.Title = "40%";
+                    progressBar.ReportValue(40);
 
                     byte[] finalText = DecryptBytes(bytes, password);
 
-                    Console.Title = "70%";
+                    progressBar.ReportValue(70);
 
                     File.WriteAllBytes(path.path, finalText);
 
                     File.Move(path.path, $"{path.path.Substring(0, path.path.Length - ".crr".Length)}");
 
-                    Console.Title = "100%";
+                    progressBar.ReportValue(100);
+
+                    progressBar.End();
                 }
                 catch
                 {
