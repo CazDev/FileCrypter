@@ -11,7 +11,7 @@ namespace FileCrypter.Model
 {
     public class Updater
     {
-        private const string DownloadLink = "https://github.com/tavvi1337/FileCrypter/raw/master/FileCrypter/bin/Release/FileCrypter.exe";
+        private const string DownloadLink = "https://github.com/tavvi1337/FileCrypter/raw/master/FileCrypter/bin/Debug/FileCrypter.exe";
 
         public void Update()
         {
