@@ -47,10 +47,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorWriter.cs" />
-    <Compile Include="Crypter.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="ProgressBar.cs" />
+    <Compile Include="Controller\Controller.cs" />
+    <Compile Include="Model\Updater.cs" />
+    <Compile Include="Model\ColorWriter.cs" />
+    <Compile Include="Model\Crypter.cs" />
+    <Compile Include="Model\CryptStatus.cs" />
+    <Compile Include="Model\Path.cs" />
+    <Compile Include="View\Program.cs" />
+    <Compile Include="Model\ProgressBar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,5 +63,6 @@
   <ItemGroup>
     <Content Include="icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

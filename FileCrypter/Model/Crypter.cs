@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileCrypter.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -15,7 +16,7 @@ namespace FileCrypter
         /// </summary>
         /// <param name="pathes">pathes to folders & files</param>
         /// <param name="password">password to encrypt</param>
-        public void Encrypt(Path[] pathes, string password)
+        public void Encrypt(Model.PathName[] pathes, string password)
         {
             for (int i = 0; i < pathes.Length; i++)
             {
@@ -28,7 +29,7 @@ namespace FileCrypter
         /// </summary>
         /// <param name="pathes">pathes to folders & files</param>
         /// <param name="password">password to encrypt</param>
-        public void Decrypt(Path[] pathes, string password)
+        public void Decrypt(Model.PathName[] pathes, string password)
         {
             for (int i = 0; i < pathes.Length; i++)
             {
@@ -38,7 +39,7 @@ namespace FileCrypter
         }
 
 
-        private bool EncryptFile(Path path, string password)
+        private bool EncryptFile(Model.PathName path, string password)
         {
             if (path.cryptStatus == CryptStatus.NotCrypted)
             {
@@ -74,7 +75,7 @@ namespace FileCrypter
             }
             return false;
         }
-        private bool DecryptFile(Path path, string password)
+        private bool DecryptFile(Model.PathName path, string password)
         {
             if (path.cryptStatus == CryptStatus.Crypted)
             {
