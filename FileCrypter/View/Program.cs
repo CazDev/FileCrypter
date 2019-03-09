@@ -1,9 +1,6 @@
 ﻿using FileCrypter.Controller;
 using System;
-
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace FileCrypter
 {
@@ -15,16 +12,22 @@ namespace FileCrypter
         {
             if (args.Length == 0)
             {
-                controller.StartWithoutArgs();
+                OpenFileDialog ofd = new OpenFileDialog
+                {
+                    Multiselect = true
+                };
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    controller.StartUsingPathes(ofd.FileNames);
+                }
             }
             else
             {
-                controller.StartUsingArgs(args);
+                controller.StartUsingPathes(args);
             }
 
             ColorWriter.Write("\nDone", ConsoleColor.White);
 
-            controller.Update();
             Console.ReadKey();
         }
     }

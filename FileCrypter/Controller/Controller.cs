@@ -13,50 +13,25 @@ namespace FileCrypter.Controller
         private readonly Updater updater = new Updater();
 
         /// <summary>
-        /// Show openFileDialog, get files and encrypt or decrypt
-        /// </summary>
-        /// <param name="password"></param>
-        public void StartWithoutArgs()
-        {
-            string password = GetPassword();
-            OpenFileDialog ofd = new OpenFileDialog
-            {
-                Multiselect = true
-            };
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                ReadKeyAndEncryptOrDecrypt(GetPathesFromPathes(ofd.FileNames), password);
-            }
-        }
-        /// <summary>
         /// Use args as pathes to files & folders
         /// </summary>
-        /// <param name="args">Arguments</param>
+        /// <param name="path">Arguments</param>
         /// <param name="password">pass</param>
-        public void StartUsingArgs(string[] args)
+        public void StartUsingPathes(string[] path)
         {
-            if (args[0] == "new_ver")
-            {
-                MessageBox.Show("Updated");
-                List<string> new_args = args.OfType<string>().ToList();
-                new_args.RemoveAt(0);
-                args = new_args.ToArray();
-            }
-
-
             string password = GetPassword();
             ColorWriter.Write("Getting files...\n", ConsoleColor.White);
-            Model.PathName[] pathes = GetPathesFromPathes(args);
+            Model.PathName[] pathes = GetPathNamesFromPathes(path);
 
-            ReadKeyAndEncryptOrDecrypt(pathes, password);
-        }
-        public void Update()
-        {
-            if (MessageBox.Show("Job done! Do you want to check updates?", "Update",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Information) == DialogResult.Yes)// ask if user want to check update
+            ConsoleKeyInfo key = GetKeyEorD();
+
+            if (key.Key == ConsoleKey.E)
             {
-                updater.Update();
+                crypter.Encrypt(pathes, password);
+            }
+            else if (key.Key == ConsoleKey.D)
+            {
+                crypter.Decrypt(pathes, password);
             }
         }
 
@@ -94,7 +69,7 @@ namespace FileCrypter.Controller
             return pass;
         }
         #endregion
-        private PathName[] GetPathesFromPathes(string[] pathes)
+        private PathName[] GetPathNamesFromPathes(string[] pathes)
         {
             List<PathName> args = new List<PathName>();
             for (int i = 0; i < pathes.Length; i++)
@@ -104,8 +79,8 @@ namespace FileCrypter.Controller
                     FileAttributes attr = File.GetAttributes(pathes[i]);
                     if (attr.HasFlag(FileAttributes.Directory))
                     {//if dir
-                        args.AddRange(GetPathesFromPathes(Directory.GetFiles(pathes[i])));
-                        args.AddRange(GetPathesFromPathes(Directory.GetDirectories(pathes[i])));
+                        args.AddRange(GetPathNamesFromPathes(Directory.GetFiles(pathes[i])));
+                        args.AddRange(GetPathNamesFromPathes(Directory.GetDirectories(pathes[i])));
                     }
                     else
                     {// if file
@@ -125,19 +100,6 @@ namespace FileCrypter.Controller
                 catch { }
             }
             return args.ToArray();
-        }
-        private void ReadKeyAndEncryptOrDecrypt(PathName[] pathes, string password)
-        {
-            ConsoleKeyInfo key = GetKeyEorD();
-
-            if (key.Key == ConsoleKey.E)
-            {
-                crypter.Encrypt(pathes, password);
-            }
-            else
-            {
-                crypter.Decrypt(pathes, password);
-            }
         }
     }
 }

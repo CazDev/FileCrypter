@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FileCrypter
 {
-    internal class Crypter
+    public class Crypter
     {
         /// <summary>
         /// Encryping & compressing files or folders 
@@ -142,12 +142,8 @@ namespace FileCrypter
             algorithm.IV = rdb.GetBytes(16);
             return algorithm;
         }
-        /// <summary>
-        /// Encrypts a string with a given password.
-        /// </summary>
-        /// <param name="clearText">The clear text.</param>
-        /// <param name="password">The password.</param>
-        private static byte[] EncryptBytes(byte[] clearBytes, string password)
+
+        public byte[] EncryptBytes(byte[] clearBytes, string password)
         {
             SymmetricAlgorithm algorithm = GetAlgorithm(password);
             ICryptoTransform encryptor = algorithm.CreateEncryptor();
@@ -159,12 +155,7 @@ namespace FileCrypter
                 return ms.ToArray();
             }
         }
-        /// <summary>
-        /// Decrypts a string using a given password.
-        /// </summary>
-        /// <param name="cipherText">The cipher text.</param>
-        /// <param name="password">The password.</param>
-        private static byte[] DecryptBytes(byte[] cipherBytes, string password)
+        public byte[] DecryptBytes(byte[] cipherBytes, string password)
         {
             SymmetricAlgorithm algorithm = GetAlgorithm(password);
             ICryptoTransform decryptor = algorithm.CreateDecryptor();

@@ -1,0 +1,10 @@
+C:\C#\FileCrypter\.vs\FileCrypter\lut\0\b\FileCrypterTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\C#\FileCrypter\.vs\FileCrypter\lut\0\b\FileCrypterTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\C#\FileCrypter\.vs\FileCrypter\lut\0\b\FileCrypterTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\C#\FileCrypter\.vs\FileCrypter\lut\0\b\FileCrypterTests\bin\Debug\ru\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.resources.dll
+C:\C#\FileCrypter\.vs\FileCrypter\lut\0\b\FileCrypterTests\bin\Debug\ru\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.resources.dll
+C:\C#\FileCrypter\.vs\FileCrypter\lut\0\b\FileCrypterTests\bin\Debug\ru\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
+C:\C#\FileCrypter\.vs\FileCrypter\lut\0\b\FileCrypterTests\bin\Debug\FileCrypterTests.dll
+C:\C#\FileCrypter\.vs\FileCrypter\lut\0\i\FileCrypterTests\Debug\FileCrypterTests.csproj.CoreCompileInputs.cache
+C:\C#\FileCrypter\.vs\FileCrypter\lut\0\i\FileCrypterTests\Debug\FileCrypterTests.csproj.CopyComplete
+C:\C#\FileCrypter\.vs\FileCrypter\lut\0\i\FileCrypterTests\Debug\FileCrypterTests.dll
